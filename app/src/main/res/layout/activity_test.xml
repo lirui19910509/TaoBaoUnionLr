@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/navigation_bar_color"
+            android:button="@null"
+            android:gravity="center"
+            android:text="首页"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/navigation_bar_color"
+            android:button="@null"
+            android:gravity="center"
+            android:text="精选"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/navigation_bar_color"
+            android:button="@null"
+            android:gravity="center"
+            android:text="特惠"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/navigation_bar_color"
+            android:button="@null"
+            android:gravity="center"
+            android:text="搜索"/>
+    </RadioGroup>
+
+</RelativeLayout>
