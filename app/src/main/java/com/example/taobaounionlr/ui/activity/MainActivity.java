@@ -57,19 +57,19 @@ public class MainActivity extends AppCompatActivity {
                  //Log.d("标题---->", (String) item.getTitle());
                  if (item.getItemId() == R.id.home){
                      //Log.d(TAG,"切换到首页");
-                     LogUtils.d(MainActivity.class,"切换到首页");
+                     LogUtils.d(this,"切换到首页");
                      switchFragment(mHomeFragment);
                  }else if (item.getItemId() == R.id.selected){
                      //Log.d(TAG,"切换到精选");
-                     LogUtils.i(MainActivity.class,"切换到精选");
+                     LogUtils.i(this,"切换到精选");
                      switchFragment(mSelectedFragment);
                  }else if (item.getItemId() == R.id.red_packet){
                      //Log.d(TAG,"切换为特惠");
-                     LogUtils.w(MainActivity.class,"切换为特惠");
+                     LogUtils.w(this,"切换为特惠");
                      switchFragment(mRedPacketFragment);
                  }else if(item.getItemId() == R.id.search){
                      //Log.d(TAG,"切换到搜索");
-                     LogUtils.e(MainActivity.class,"切换到搜索");
+                     LogUtils.e(this,"切换到搜索");
                      switchFragment(mSearchFragment);
                  }
                 return true;
