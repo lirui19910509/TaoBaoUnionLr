@@ -15,8 +15,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class HomePresenterImpl implements IHomePresenter {
+    private IHomeCallback mCallback = null;
+
     @Override
     public void getCategories() {
+        if (mCallback != null){
+            mCallback.onLoading();
+        }
         //加载分类数据
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         Api api = retrofit.create(Api.class);
@@ -30,10 +35,21 @@ public class HomePresenterImpl implements IHomePresenter {
                 if (code == HttpURLConnection.HTTP_OK){
                     //请求成功
                     Categories categories = response.body();
-                    LogUtils.d(HomePresenterImpl.this,categories.toString());
+                    if (mCallback!=null){
+                        //categories = null;//测试内容为空的loading
+                        if (categories == null || categories.getData().size() == 0){
+                            mCallback.onEmpty();
+                        }else {
+                            // LogUtils.d(HomePresenterImpl.this,categories.toString());
+                            mCallback.onCategoriesLoaded(categories);
+                        }
+                    }
                 }else {
                     //请求失败
                     LogUtils.i(HomePresenterImpl.this,"请求失败...");
+                    if (mCallback != null){
+                        mCallback.onNetworkError();
+                    }
                 }
             }
 
@@ -41,6 +57,9 @@ public class HomePresenterImpl implements IHomePresenter {
             public void onFailure(Call<Categories> call, Throwable t) {
                 //加载失败的结果
                 LogUtils.e(HomePresenterImpl.this,"请求错误..."+t);
+                if (mCallback != null){
+                    mCallback.onNetworkError();
+                }
             }
         });
 
@@ -49,12 +68,12 @@ public class HomePresenterImpl implements IHomePresenter {
     //注册
     @Override
     public void registerCallback(IHomeCallback callback) {
-
+        this.mCallback = callback;
     }
 
     //不注册
     @Override
     public void unregisterCallback(IHomeCallback callback) {
-
+        mCallback = null;
     }
 }
