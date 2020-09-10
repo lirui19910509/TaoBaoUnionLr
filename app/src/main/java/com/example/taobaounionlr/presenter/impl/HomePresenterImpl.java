@@ -67,13 +67,13 @@ public class HomePresenterImpl implements IHomePresenter {
 
     //注册
     @Override
-    public void registerCallback(IHomeCallback callback) {
+    public void registerViewCallback(IHomeCallback callback) {
         this.mCallback = callback;
     }
 
     //不注册
     @Override
-    public void unregisterCallback(IHomeCallback callback) {
+    public void unregisterViewCallback(IHomeCallback callback) {
         mCallback = null;
     }
 }

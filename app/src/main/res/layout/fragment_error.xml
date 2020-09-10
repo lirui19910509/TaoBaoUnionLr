@@ -3,11 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/network_error_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="网络错误，请点击重试..."
-        />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_13"
+            android:src="@mipmap/wifi"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_network_error_tips"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
 </LinearLayout>
