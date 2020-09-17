@@ -9,7 +9,9 @@ import com.example.taobaounionlr.utils.UrlUtils;
 import com.example.taobaounionlr.view.ICategoryPagerCallback;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -38,6 +40,10 @@ public class CategoryPagePresenterImpl implements ICategoryPagerPresenter {
 
     @Override
     public void getContentByCategoryId(int categoryId) {
+        //loading
+        for (ICategoryPagerCallback callback : callbacks) {
+            callback.onLoading(categoryId);
+        }
         //根据分类id去加载内容
         //TODO：
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
@@ -57,8 +63,11 @@ public class CategoryPagePresenterImpl implements ICategoryPagerPresenter {
                 LogUtils.d(CategoryPagePresenterImpl.this,"code -->"+code);
                 if (code == HttpURLConnection.HTTP_OK){
                     HomePagerContent pagerContent = response.body();
+                    LogUtils.d(CategoryPagePresenterImpl.this,"pageContent-->"+pagerContent);
+                    //把数据给到UI更新
+                    handleHomePageContentResult(pagerContent,categoryId);
                 }else {
-                    //TODO:
+                    handleNetworkError(categoryId);
                 }
             }
 
@@ -67,6 +76,26 @@ public class CategoryPagePresenterImpl implements ICategoryPagerPresenter {
                 LogUtils.d(CategoryPagePresenterImpl.this,"onFailure-->"+t.toString());
             }
         });
+    }
+
+    //网络错误
+    private void handleNetworkError(int categoryId) {
+        for (ICategoryPagerCallback callback : callbacks) {
+            if (callback.getCategoryId() == categoryId){
+                callback.onError(categoryId);
+            }
+        }
+    }
+
+    private void handleHomePageContentResult(HomePagerContent pagerContent, int categoryId) {
+        //通知UI层更新数据
+        for (ICategoryPagerCallback callback : callbacks){
+            if (pagerContent == null || pagerContent.getData().size() == 0){
+                callback.onEmpty(categoryId);
+            }else {
+                callback.onContentLoaded(pagerContent.getData(),categoryId);
+            }  
+        }
     }
 
     @Override
@@ -79,13 +108,18 @@ public class CategoryPagePresenterImpl implements ICategoryPagerPresenter {
 
     }
 
+    //集合
+    private List<ICategoryPagerCallback> callbacks = new ArrayList<>();
+
     @Override
     public void registerViewCallback(ICategoryPagerCallback callback) {
-
+        if (!callbacks.contains(callback)){
+            callbacks.add(callback);
+        }
     }
 
     @Override
     public void unregisterViewCallback(ICategoryPagerCallback callback) {
-
+        callbacks.remove(callback);
     }
 }

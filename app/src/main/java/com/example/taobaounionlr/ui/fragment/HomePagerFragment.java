@@ -17,6 +17,7 @@ import java.util.List;
 public class HomePagerFragment extends BaseFragment implements ICategoryPagerCallback {
 
     private ICategoryPagerPresenter mCategoryPagerPresenter;
+    private int mMaterialId;
 
     public static HomePagerFragment newInstance(Categories.DataBean category){
         HomePagerFragment homePagerFragment = new HomePagerFragment();
@@ -47,34 +48,55 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPagerCal
     protected void loadData() {
         Bundle arguments = getArguments();
         String title = arguments.getString(Constans.KEY_HOME_PAGER_TITLE);
-        int materialId = arguments.getInt(Constans.KEY_HOME_PAGER_MATERIAL_ID);
+        mMaterialId = arguments.getInt(Constans.KEY_HOME_PAGER_MATERIAL_ID);
         //TODO：加载数据
 //        LogUtils.d(this,"title-->"+title);
 //        Log.d("2020年9月8日17:37:24","materialId-->"+materialId);
 //        LogUtils.d(this,"materialId-->"+materialId);
         if (mCategoryPagerPresenter != null){
-            mCategoryPagerPresenter.getContentByCategoryId(materialId);
+            mCategoryPagerPresenter.getContentByCategoryId(mMaterialId);
         }
     }
 
     @Override
-    public void onContentLoaded(List<HomePagerContent.DataBean> contents) {
-
+    public void onContentLoaded(List<HomePagerContent.DataBean> contents,int categoryId) {
+//        if (mMaterialId != categoryId){
+//            return;
+//        }
+        //数据列表加载到了
+        //TODO:更新UI
+        setUpState(State.SUCCESS);
     }
 
     @Override
-    public void onLoading(int categoryId) {
+    public int getCategoryId() {
+        return mMaterialId;
+    }
 
+
+    @Override
+    public void onLoading(int categoryId) {
+//        if (mMaterialId != categoryId){
+//            return;
+//        }
+        setUpState(State.LOADING);
     }
 
     @Override
     public void onError(int categoryId) {
-
+//        if (mMaterialId != categoryId){
+//            return;
+//        }
+        //网络错误
+        setUpState(State.ERROR);
     }
 
     @Override
     public void onEmpty(int categoryId) {
-
+//        if (mMaterialId != categoryId){
+//            return;
+//        }
+        setUpState(State.EMPTY);
     }
 
     @Override
@@ -88,12 +110,12 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPagerCal
     }
 
     @Override
-    public void onLoaderMoreLoaded(List<HomePagerContent.DataBean> contents) {
+    public void onLoaderMoreLoaded(List<HomePagerContent.DataBean> contents,int categoryId) {
 
     }
 
     @Override
-    public void onLooperListLoaded(List<HomePagerContent.DataBean> contents) {
+    public void onLooperListLoaded(List<HomePagerContent.DataBean> contents,int categoryId) {
 
     }
 

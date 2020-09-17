@@ -9,7 +9,9 @@ public interface ICategoryPagerCallback {
      * 数据加载回来
      * @param contents
      * */
-    void onContentLoaded(List<HomePagerContent.DataBean> contents);
+    void onContentLoaded(List<HomePagerContent.DataBean> contents,int categoryId);
+
+    int getCategoryId();
 
     /**
      * 加载中
@@ -45,13 +47,13 @@ public interface ICategoryPagerCallback {
      * 加到了更多内容
      * @param contents
      * */
-    void onLoaderMoreLoaded(List<HomePagerContent.DataBean> contents);
+    void onLoaderMoreLoaded(List<HomePagerContent.DataBean> contents,int categoryId);
 
     /**
      * 轮播图内容加载到了
      * @param contents
      * */
-    void onLooperListLoaded(List<HomePagerContent.DataBean> contents);
+    void onLooperListLoaded(List<HomePagerContent.DataBean> contents,int categoryId);
 
 
 }
